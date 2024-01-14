@@ -2,6 +2,15 @@ package com.zoola.tutorial.controller;
 
 import com.zoola.tutorial.model.Tutorial;
 import com.zoola.tutorial.service.TutorialService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +22,24 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
+@Tag(name = "Tutorial", description = "Tutorial API")
 public class TutorialController {
 
     private final TutorialService tutorialService;
 
+    @Operation(
+            summary = "Get all tutorials",
+            description = "Get all tutorials from database",
+            tags = {"tutorials", "get"}
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = Tutorial.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "204", content = {@Content(schema = @Schema())}),
+            @ApiResponse(responseCode = "500", content = {@Content(schema = @Schema())})
+    })
+    @Parameters({
+            @Parameter(name = "title", description = "Tutorial title", in = ParameterIn.QUERY, schema = @Schema(implementation = String.class))
+    })
     @GetMapping("/tutorials")
     public ResponseEntity<List<Tutorial>> getAllTutorials(@RequestParam(required = false) String title) {
         try {
