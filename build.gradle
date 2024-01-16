@@ -37,4 +37,5 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+	jvmArgs("-XX:+EnableDynamicAgentLoading") // this disables the warning about agent being loaded dynamically
 }
