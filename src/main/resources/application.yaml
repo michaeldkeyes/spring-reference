@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+      path: /h2-ui
+
+example:
+  openapi:
+    dev-url: http://localhost:8080
+    prod-url: https://example.com
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  packages-to-scan:
+    com.zoola.tutorial.controller
+  swagger-ui:
+    enabled: true
+    filter: true
+    operations-sorter: method
+    path: /swagger-ui
+    tags-sorter: alpha
+    try-it-out-enabled: true
