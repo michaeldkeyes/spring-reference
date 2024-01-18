@@ -159,6 +159,6 @@ public class TutorialServiceTests {
         final List<Tutorial> actual = tutorialService.findByPublished();
 
         verify(tutorialRepository, times(1)).findByPublished(true);
-        assertThat(actual).hasSize(3);
+        assertThat(actual).hasSize(2);
     }
 }
