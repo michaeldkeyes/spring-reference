@@ -71,7 +71,7 @@ public class TutorialController {
         try {
             Tutorial _tutorial = tutorialService.createTutorial(tutorial);
 
-            return ResponseEntity.ok(_tutorial);
+            return new ResponseEntity<>(_tutorial, HttpStatus.CREATED);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -81,11 +81,13 @@ public class TutorialController {
     public ResponseEntity<Tutorial> updateTutorial(@PathVariable("id") long id, @RequestBody Tutorial tutorial) {
         Tutorial _tutorial = tutorialService.updateTutorial(tutorial);
 
+        System.out.println("Update Tutorial with ID = " + id);
+
         if (_tutorial == null) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(tutorialService.createTutorial(_tutorial));
+        return ResponseEntity.ok(_tutorial);
     }
 
     @DeleteMapping("/tutorials/{id}")

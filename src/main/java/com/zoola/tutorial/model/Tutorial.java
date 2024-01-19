@@ -7,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @Data
 @Entity
+@NoArgsConstructor
 @Schema(description = "Tutorial model")
 @Table(name = "tutorials")
 public class Tutorial {
