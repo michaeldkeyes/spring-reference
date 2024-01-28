@@ -78,10 +78,8 @@ public class TutorialController {
     }
 
     @PutMapping("/tutorials/{id}")
-    public ResponseEntity<Tutorial> updateTutorial(@PathVariable("id") long id, @RequestBody Tutorial tutorial) {
-        Tutorial _tutorial = tutorialService.updateTutorial(tutorial);
-
-        System.out.println("Update Tutorial with ID = " + id);
+    public ResponseEntity<Tutorial> updateTutorial(@PathVariable("id") final long id, @RequestBody final Tutorial tutorial) {
+        Tutorial _tutorial = tutorialService.updateTutorial(id, tutorial);
 
         if (_tutorial == null) {
             return ResponseEntity.notFound().build();

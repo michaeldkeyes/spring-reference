@@ -39,3 +39,9 @@ tasks.named('test') {
 	useJUnitPlatform()
 	jvmArgs("-XX:+EnableDynamicAgentLoading") // this disables the warning about agent being loaded dynamically
 }
+
+tasks.named("bootBuildImage") {
+	docker {
+		host = "unix://${System.properties['user.home']}/.colima/docker.sock"
+	}
+}

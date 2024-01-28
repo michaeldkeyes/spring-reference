@@ -97,15 +97,16 @@ public class TutorialServiceTests {
     @Test
     @DisplayName("Should update a tutorial in the repository")
     public void shouldUpdateATutorialInTheRepository() {
-        final Tutorial tutorial = new Tutorial(1L, "Tut title 1", "Tut desc 1", true);
-        final Tutorial tutorialInDb = new Tutorial(1L, "Tut title 1 updated", "Tut desc 1 updated", true);
+        final long id = 1L;
+        final Tutorial tutorial = new Tutorial("Tut title 1", "Tut desc 1", true);
+        final Tutorial tutorialInDb = new Tutorial(id, "Tut title 1 updated", "Tut desc 1 updated", true);
 
-        when(tutorialRepository.findById(tutorial.getId())).thenReturn(Optional.of(tutorialInDb));
-        when(tutorialRepository.save(tutorial)).thenReturn(tutorialInDb);
+        when(tutorialRepository.findById(id)).thenReturn(Optional.of(tutorialInDb));
+        when(tutorialRepository.save(tutorialInDb)).thenReturn(tutorialInDb);
 
-        final Tutorial actual = tutorialService.updateTutorial(tutorial);
+        final Tutorial actual = tutorialService.updateTutorial(id, tutorial);
 
-        verify(tutorialRepository, times(1)).findById(tutorial.getId());
+        verify(tutorialRepository, times(1)).findById(id);
         verify(tutorialRepository, times(1)).save(tutorialInDb);
         assertThat(actual).isEqualTo(tutorialInDb);
     }
@@ -113,12 +114,13 @@ public class TutorialServiceTests {
     @Test
     @DisplayName("Should return null when a tutorial with the given id does not exist when updating")
     public void shouldReturnNullWhenATutorialWithGivenIdDoesNotExistWhenUpdating() {
-        final Tutorial tutorial = new Tutorial(1L, "Tut title 1", "Tut desc 1", true);
-        when(tutorialRepository.findById(tutorial.getId())).thenReturn(Optional.empty());
+        final long id = 1L;
+        final Tutorial tutorial = new Tutorial("Tut title 1", "Tut desc 1", true);
+        when(tutorialRepository.findById(id)).thenReturn(Optional.empty());
 
-        final Tutorial actual = tutorialService.updateTutorial(tutorial);
+        final Tutorial actual = tutorialService.updateTutorial(id, tutorial);
 
-        verify(tutorialRepository, times(1)).findById(tutorial.getId());
+        verify(tutorialRepository, times(1)).findById(id);
         assertThat(actual).isNull();
     }
 
