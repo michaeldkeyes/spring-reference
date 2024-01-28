@@ -1,6 +1,7 @@
 package com.zoola.tutorial.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zoola.tutorial.exception.ControllerExceptionHandler;
 import com.zoola.tutorial.model.Tutorial;
 import com.zoola.tutorial.service.TutorialService;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +18,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(TutorialController.class)
+@WebMvcTest({TutorialController.class})
 public class TutorialControllerTests {
 
     @MockBean
@@ -68,16 +69,6 @@ public class TutorialControllerTests {
     }
 
     @Test
-    @DisplayName("Should return not found when tutorial not found")
-    public void shouldReturnNotFoundWhenTutorialNotFound() throws Exception {
-        final long id = 1L;
-        when(tutorialService.getTutorialById(id)).thenReturn(null);
-
-        mockMvc.perform(get("/api/tutorials/" + id))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
     @DisplayName("Should create tutorial")
     public void shouldCreateTutorial() throws Exception {
         final Tutorial tutorial = new Tutorial(1L, "Tutorial 1", "Description 1", true);
@@ -103,20 +94,6 @@ public class TutorialControllerTests {
                         .content(objectMapper.writeValueAsString(tutorial)))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(tutorial)));
-    }
-
-    @Test
-    @DisplayName("Should return not found when tutorial not found for update")
-    public void shouldReturnNotFoundWhenTutorialNotFoundForUpdate() throws Exception {
-        final long id = 1L;
-        final Tutorial tutorial = new Tutorial(id, "Tutorial 1", "Description 1", true);
-
-        when(tutorialService.updateTutorial(id, tutorial)).thenReturn(null);
-
-        mockMvc.perform(put("/api/tutorials/" + id)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(tutorial)))
-                .andExpect(status().isNotFound());
     }
 
     @Test

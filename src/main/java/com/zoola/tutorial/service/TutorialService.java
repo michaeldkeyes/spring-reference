@@ -1,5 +1,6 @@
 package com.zoola.tutorial.service;
 
+import com.zoola.tutorial.exception.ResourceNotFoundException;
 import com.zoola.tutorial.model.Tutorial;
 import com.zoola.tutorial.repository.TutorialRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,9 @@ public class TutorialService {
     }
 
     public Tutorial getTutorialById(final long id) {
-        return tutorialRepository.findById(id).orElse(null);
+        return tutorialRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Tutorial not found with id: " + id));
     }
 
     public Tutorial createTutorial(final Tutorial tutorial) {
@@ -31,11 +34,9 @@ public class TutorialService {
     }
 
     public Tutorial updateTutorial(final long id, final Tutorial tutorial) {
-        Tutorial _tutorial = tutorialRepository.findById(id).orElse(null);
-
-        if (_tutorial == null) {
-            return null;
-        }
+        Tutorial _tutorial = tutorialRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Tutorial not found with id: " + id));
 
         _tutorial.setTitle(tutorial.getTitle());
         _tutorial.setDescription(tutorial.getDescription());
