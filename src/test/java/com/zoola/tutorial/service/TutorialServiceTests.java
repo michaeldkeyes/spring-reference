@@ -1,5 +1,6 @@
 package com.zoola.tutorial.service;
 
+import com.zoola.tutorial.exception.ResourceNotFoundException;
 import com.zoola.tutorial.model.Tutorial;
 import com.zoola.tutorial.repository.TutorialRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -71,15 +73,16 @@ public class TutorialServiceTests {
     }
 
     @Test
-    @DisplayName("Should return null when a tutorial with the given id does not exist")
+    @DisplayName("Should throw ResourceNotFound exception when a tutorial with the given id does not exist")
     public void shouldReturnNullWhenATutorialWithGivenIdDoesNotExist() {
         final long id = 1L;
         when(tutorialRepository.findById(id)).thenReturn(Optional.empty());
 
-        final Tutorial actual = tutorialService.getTutorialById(id);
+        assertThrows(ResourceNotFoundException.class, () -> {
+            tutorialService.getTutorialById(id);
+        });
 
         verify(tutorialRepository, times(1)).findById(id);
-        assertThat(actual).isNull();
     }
 
     @Test
@@ -112,16 +115,18 @@ public class TutorialServiceTests {
     }
 
     @Test
-    @DisplayName("Should return null when a tutorial with the given id does not exist when updating")
+    @DisplayName("Should throw ResourceNotFound exception when a tutorial with the given id does not exist when updating")
     public void shouldReturnNullWhenATutorialWithGivenIdDoesNotExistWhenUpdating() {
         final long id = 1L;
         final Tutorial tutorial = new Tutorial("Tut title 1", "Tut desc 1", true);
         when(tutorialRepository.findById(id)).thenReturn(Optional.empty());
 
-        final Tutorial actual = tutorialService.updateTutorial(id, tutorial);
+        //final Tutorial actual = tutorialService.updateTutorial(id, tutorial);
+        assertThrows(ResourceNotFoundException.class, () -> {
+            tutorialService.updateTutorial(id, tutorial);
+        });
 
         verify(tutorialRepository, times(1)).findById(id);
-        assertThat(actual).isNull();
     }
 
     @Test
