@@ -4,19 +4,21 @@ import com.zoola.tutorial.model.Tutorial;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @DataJpaTest
 public class TutorialRepositoryTests {
 
     @Autowired
-    private TestEntityManager entityManager;
+    TutorialRepository tutorialRepository;
 
     @Autowired
-    private TutorialRepository tutorialRepository;
+    private TestEntityManager entityManager;
 
     @Test
     @DisplayName("Should find no tutorials if repository is empty")

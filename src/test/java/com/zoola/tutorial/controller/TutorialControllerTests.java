@@ -96,7 +96,7 @@ public class TutorialControllerTests {
         final long id = 1L;
         final Tutorial tutorial = new Tutorial(id, "Tutorial 1", "Description 1", true);
 
-        when(tutorialService.updateTutorial(tutorial)).thenReturn(tutorial);
+        when(tutorialService.updateTutorial(id, tutorial)).thenReturn(tutorial);
 
         mockMvc.perform(put("/api/tutorials/" + id)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -111,7 +111,7 @@ public class TutorialControllerTests {
         final long id = 1L;
         final Tutorial tutorial = new Tutorial(id, "Tutorial 1", "Description 1", true);
 
-        when(tutorialService.updateTutorial(tutorial)).thenReturn(null);
+        when(tutorialService.updateTutorial(id, tutorial)).thenReturn(null);
 
         mockMvc.perform(put("/api/tutorials/" + id)
                         .contentType(MediaType.APPLICATION_JSON)

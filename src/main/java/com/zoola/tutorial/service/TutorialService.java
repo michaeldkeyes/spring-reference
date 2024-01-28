@@ -14,7 +14,7 @@ public class TutorialService {
 
     private final TutorialRepository tutorialRepository;
 
-    public List<Tutorial> getAllTutorials(String title) {
+    public List<Tutorial> getAllTutorials(final String title) {
         if (title == null) {
             return tutorialRepository.findAll();
         } else {
@@ -22,16 +22,16 @@ public class TutorialService {
         }
     }
 
-    public Tutorial getTutorialById(long id) {
+    public Tutorial getTutorialById(final long id) {
         return tutorialRepository.findById(id).orElse(null);
     }
 
-    public Tutorial createTutorial(Tutorial tutorial) {
+    public Tutorial createTutorial(final Tutorial tutorial) {
         return tutorialRepository.save(tutorial);
     }
 
-    public Tutorial updateTutorial(Tutorial tutorial) {
-        Tutorial _tutorial = tutorialRepository.findById(tutorial.getId()).orElse(null);
+    public Tutorial updateTutorial(final long id, final Tutorial tutorial) {
+        Tutorial _tutorial = tutorialRepository.findById(id).orElse(null);
 
         if (_tutorial == null) {
             return null;
@@ -44,7 +44,7 @@ public class TutorialService {
         return tutorialRepository.save(_tutorial);
     }
 
-    public void deleteById(long id) {
+    public void deleteById(final long id) {
         tutorialRepository.deleteById(id);
     }
 
